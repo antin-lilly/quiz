@@ -8,11 +8,11 @@ import (
 // TODO db model
 type TODO struct {
 	gorm.Model
-	ID        string    `json:""`
-	CreatedAt time.Time `json:""`
-	Done      bool      `json:""`
-	Subject   string    `json:""`
-	Note      string    `json:""`
+	ID        string `json:""`
+	CreatedAt time.Time   `json:""`
+	Done      bool   `json:""`
+	Subject   string `json:""`
+	Note      string `json:""`
 }
 
 // Create new TODO in DB

@@ -2,10 +2,9 @@ package main
 
 import (
 	"log"
-
-	"github.com/podanypepa/fiber-gorm-mysql-backend/pkg/database"
-	"github.com/podanypepa/fiber-gorm-mysql-backend/pkg/model/todo"
-	"github.com/podanypepa/fiber-gorm-mysql-backend/pkg/rest"
+	"q3/rnd/src/database"
+	"q3/rnd/src/model/todo"
+	"q3/rnd/src/web"
 )
 
 func main() {
@@ -14,7 +13,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	if err := rest.Create().Listen(":8080"); err != nil {
+	if err := web.Create().Listen(":8080"); err != nil {
 		log.Fatal(err)
 	}
 }

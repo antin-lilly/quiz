@@ -1,8 +1,8 @@
-package rest
+package web
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/podanypepa/fiber-gorm-mysql-backend/pkg/rest/controller"
+	"q3/rnd/src/web/controller"
 )
 
 // Create new REST API serveer
@@ -17,7 +17,7 @@ func Create() *fiber.App {
 	app.Put("/api/todos", controller.TodoPut)
 	app.Delete("/api/todos", controller.TodoDel)
 
-	app.Get("/config", controller.Config)
+	app.Get("/config", Config)
 
 	return app
 }
