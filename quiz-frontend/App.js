@@ -24,5 +24,5 @@ export default function App() {
 }
 
 const ProfileScreen = ({ navigation, route }) => {
-  return <Text>This is {route.params.name}'s profile</Text>;
+  return <Text>This is {route.params.title}</Text>;
 };
