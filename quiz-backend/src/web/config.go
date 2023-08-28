@@ -1,8 +1,8 @@
-package controller
+package web
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/podanypepa/fiber-gorm-mysql-backend/pkg/database"
+	"q3/rnd/src/database"
 )
 
 func Config(c *fiber.Ctx) error {

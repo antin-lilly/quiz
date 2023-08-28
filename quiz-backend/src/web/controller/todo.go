@@ -2,8 +2,8 @@ package controller
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/podanypepa/fiber-gorm-mysql-backend/pkg/database"
-	"github.com/podanypepa/fiber-gorm-mysql-backend/pkg/model/todo"
+	"q3/rnd/src/database"
+	"q3/rnd/src/model/todo"
 )
 
 // TodoGet GET /api/todos
@@ -54,5 +54,5 @@ func TodoDel(c *fiber.Ctx) error {
 	if err := todo.DeleteByID(database.DB, id); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
-	return c.Status(fiber.StatusNoContent).JSON(resp{})
+	return c.Status(fiber.StatusNoContent).JSON(id)
 }
