@@ -10,8 +10,9 @@ const quiz = {
     },
     {
       id: 2,
-      title: "General Knowledge Quiz",
-      description: "Test your knowledge on a variety of topics.",
+      title: "Not So General Knowledge Quiz",
+      description:
+        "Test your knowledge on a variety of topics. Test your knowledge on a variety of topics. Test your knowledge on a variety of topics. asdsdas",
       unique_identifier: "GK-123",
       created_at: "2023-08-25 10:00:00",
       updated_at: "2023-08-25 10:30:00",

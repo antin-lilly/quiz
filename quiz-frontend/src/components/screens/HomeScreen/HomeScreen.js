@@ -1,64 +1,92 @@
-import React from "react";
-import { FlatList, StyleSheet } from "react-native";
-import { Button, Box, Text } from "native-base";
-import quiz from "../../../mockData/mockData";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, ImageBackground } from "react-native";
+import QuestionList from "../../QuestionList/QuestionList";
+import Loading from "../../Loading/Loading";
+import { View, Input, Icon } from "native-base";
+import { MaterialIcons } from "@expo/vector-icons";
+import Sprinkle from "../../../assets/Sprinkle1.png";
+import useDebounce from "../../../hooks/useDebounceHook";
 
 const styles = StyleSheet.create({
-  quizItemContainer: {
-    backgroundColor: "#c2f2fc",
-    padding: 20,
-    marginBottom: 15,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
-    elevation: 3,
+  homeContainer: {
+    flex: 1,
   },
-  quizTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#694fad",
-    marginBottom: 10,
+
+  listConatiner: {
+    padding: 10,
   },
-  quizDescription: {
-    fontSize: 14,
-    color: "#694fad",
+  searchContainer: {
+    backgroundColor: "#8c6cd0",
+    padding: 15,
   },
-  startButton: {
-    marginTop: 15,
-    alignSelf: "flex-end",
-    backgroundColor: "#fcc2ec",
+  searchBarContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 30,
   },
-  startButtonText: {
-    color: "#694fad",
-    fontSize: 14,
+
+  searchBar: {
+    backgroundColor: "white",
+  },
+
+  imageBackground: {
+    flex: 1,
+    resizeMode: "cover",
   },
 });
 
 const HomeScreen = ({ navigation }) => {
-  const renderQuizItem = ({ item }) => (
-    <Box style={styles.quizItemContainer} _last={{ borderBottomWidth: 0 }}>
-      <Text style={styles.quizTitle}>{item.title}</Text>
-      <Text style={styles.quizDescription}>{item.description}</Text>
-      <Button
-        onPress={() =>
-          navigation.navigate("Quiz", { quizId: item.id, title: item.title })
-        }
-        style={styles.startButton}
-      >
-        Start Quiz
-      </Button>
-    </Box>
-  );
+  const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const debouncedValue = useDebounce(searchText, 500);
+
+  // test for loader - will be used when backend is implemented
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(true);
+    }, 3000);
+  }, []);
+
+  const handleSearch = (value) => {
+    setSearchText(value);
+  };
 
   return (
-    <FlatList
-      data={quiz.quizzes}
-      renderItem={renderQuizItem}
-      keyExtractor={(item) => item.id.toString()}
-      contentContainerStyle={{ paddingVertical: 16 }}
-    />
+    <View style={styles.homeContainer}>
+      {!loading ? (
+        <Loading />
+      ) : (
+        <>
+          <ImageBackground style={styles.imageBackground} source={Sprinkle}>
+            <View style={styles.searchContainer}>
+              <View style={styles.searchBarContainer}>
+                <Input
+                  style={styles.searchBar}
+                  variant="rounded"
+                  size="xl"
+                  InputLeftElement={
+                    <Icon
+                      as={<MaterialIcons name="search" />}
+                      size={6}
+                      ml="2"
+                      color="#8c6cd0"
+                    />
+                  }
+                  value={searchText}
+                  onChangeText={(e) => handleSearch(e)}
+                  placeholder="Search"
+                />
+              </View>
+            </View>
+            <View style={styles.listConatiner}>
+              <QuestionList
+                searchText={debouncedValue}
+                navigation={navigation}
+              />
+            </View>
+          </ImageBackground>
+        </>
+      )}
+    </View>
   );
 };
 
