@@ -6,30 +6,32 @@ import { View, Input, Icon } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import Sprinkle from "../../../assets/Sprinkle1.png";
 import useDebounce from "../../../hooks/useDebounceHook";
+import { globalStyles } from "../../../globalStyles";
 
 const styles = StyleSheet.create({
   homeContainer: {
-    flex: 1,
+    ...globalStyles.flex1,
   },
 
   listConatiner: {
     padding: 10,
   },
+
   searchContainer: {
-    backgroundColor: "#8c6cd0",
+    ...globalStyles.backgroundColorPrimary,
     padding: 15,
   },
   searchBarContainer: {
-    backgroundColor: "#fff",
+    ...globalStyles.backgroundColorSecondary,
     borderRadius: 30,
   },
 
   searchBar: {
-    backgroundColor: "white",
+    ...globalStyles.backgroundColorSecondary,
   },
 
   imageBackground: {
-    flex: 1,
+    ...globalStyles.flex1,
     resizeMode: "cover",
   },
 });

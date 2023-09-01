@@ -2,10 +2,11 @@ import React, { useEffect, useMemo } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { Button, Box, Text } from "native-base";
 import quiz from "../../mockData/mockData";
+import { globalStyles } from "../../globalStyles";
 
 const styles = StyleSheet.create({
   quizItemContainer: {
-    backgroundColor: "#fff",
+    ...globalStyles.backgroundColorSecondary,
     padding: 20,
     marginBottom: 15,
     borderRadius: 10,
@@ -16,24 +17,24 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   quizTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#1C2732",
+    ...globalStyles.fontSize20,
+    ...globalStyles.fontWeightBold,
+    ...globalStyles.textColorPrimary,
     marginBottom: 10,
   },
   quizDescription: {
-    fontSize: 16,
-    color: "#1C2732",
+    ...globalStyles.fontSize16,
+    ...globalStyles.textColorPrimary,
   },
   startButton: {
     marginTop: 25,
     alignSelf: "flex-end",
-    backgroundColor: "#8c6cd0",
+    ...globalStyles.backgroundColorPrimary,
     width: "100%",
   },
   startButtonText: {
-    color: "#fff",
-    fontSize: 16,
+    ...globalStyles.textColorWhite,
+    ...globalStyles.fontSize16,
   },
 });
 
