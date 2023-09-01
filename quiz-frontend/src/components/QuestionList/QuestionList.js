@@ -67,7 +67,7 @@ const QuestionList = ({ navigation, searchText }) => {
       data={filteredList}
       renderItem={renderQuizItem}
       keyExtractor={(item) => item.id.toString()}
-      contentContainerStyle={{ paddingVertical: 16 }}
+      contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}
     />
   );
 };
