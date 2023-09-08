@@ -21,16 +21,19 @@ const QuestionCard = ({ question, onSelectOption, selectedOptions }) =>
     <View style={styles.container}>
       <Text style={styles.questionText}>{question.question_text}</Text>
       {question.options.map((option) => (
-        <TouchableOpacity
-          key={option.id}
-          style={[
-            styles.optionButton,
-            selectedOptions.includes(option.id) && styles.selectedOption,
-          ]}
-          onPress={() => handleOptionSelect(option.id)}
-        >
-          <Text style={styles.optionText}>{option.option_text}</Text>
-        </TouchableOpacity>
+       <TouchableOpacity
+       key={option.id}
+       onPress={() => onSelectOption(option.id)}
+       style={{
+         backgroundColor: selectedOptions.some(
+           (selectedOption) => selectedOption.optionId === option.id
+         )
+           ? 'green' // Change to the selected color
+           : 'white', // Default color
+       }}
+     >
+       <Text>{option.option_text}</Text>
+     </TouchableOpacity>
       ))}
     </View>
   );

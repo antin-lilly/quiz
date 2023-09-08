@@ -1,59 +1,60 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { ImageBackground, StyleSheet } from 'react-native';
+import { View, Text, Button } from 'native-base';
+import StyledButton from '../components/StyledButton/StyledButton';
+import { globalStyles } from '../globalStyles';
+import Sprinkle from "../assets/Sprinkle1.png";
+
 
 const QuizResultScreen = ({ route, navigation }) =>
 {
-    const { selectedOptions } = route.params;
-    const correctAnswers = selectedOptions.filter((opt) => opt.isCorrect);
-    const percentageCorrect = (correctAnswers.length / selectedOptions.length) * 100;
-  
+  const { selectedOptions } = route.params;
+  const correctAnswers = selectedOptions.filter((opt) => opt.isCorrect);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.resultText}>Quiz Result</Text>
-      <Text>You selected the following options:</Text>
-      <View style={styles.selectedOptionsContainer}>
-      <Text>Percentage of Correct Answers: {percentageCorrect}%</Text>
+    <ImageBackground style={styles.imageBackground} source={Sprinkle}>
 
-      {selectedOptions.map((opt, index) => (
-        <Text
-          key={index}
-          style={[
-            styles.selectedOptionText,
-            opt.isCorrect ? styles.correctOption : styles.incorrectOption,
-          ]}
-        >
-          Option ID: {opt.optionId} - {opt.isCorrect ? 'Correct' : 'Incorrect'}
-        </Text>
-      ))}
-
+      <View style={styles.container}>
+        <Text style={styles.title}>Quiz Result</Text>
+        <View>
+          <Text style={styles.result}> {correctAnswers.length} / {selectedOptions.length}</Text>
+        </View>
+        <StyledButton size="lg" text="Go Back to Home" onPress={() => navigation.navigate('Home')} />
       </View>
-      <Button
-        title="Go Back to Home"
-        onPress={() => navigation.navigate('Quiz')} // Replace with your navigation route
-      />
-    </View>
+    </ImageBackground>
+      
   );
 };
 
+
+
+
+
 const styles = StyleSheet.create({
+  imageBackground: {
+    ...globalStyles.flex1,
+    resizeMode: "cover",
+  },
   container: {
     flex: 1,
-    alignItems: 'center',
+    padding: 20,
+    backgroundColor: 'rgba( 200,0, 100, 0.2 )',
     justifyContent: 'center',
-    padding: 16,
+    alignItems: 'center',
   },
-  resultText: {
+  title: {
+    padding: 10,
+    justifyContent: 'center',
+    ...globalStyles.fontSize20,
+    ...globalStyles.fontWeightBold,
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
   },
-  selectedOptionsContainer: {
-    marginTop: 16,
-  },
-  selectedOptionText: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
+  result: {
+    padding: 40,
+    ...globalStyles.fontSize20,
+    ...globalStyles.fontWeightBold,
+    fontSize: 56,
+  }
 });
 
 export default QuizResultScreen;
