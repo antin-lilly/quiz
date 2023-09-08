@@ -47,7 +47,7 @@ const HomeScreen = ({ navigation }) => {
     startLoading();
     setTimeout(() => {
       stopLoading();
-    }, 100000);
+    }, 1000);
   }, []);
 
   const handleSearch = (value) => {

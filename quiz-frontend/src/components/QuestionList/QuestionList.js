@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 const QuestionList = ({ navigation, searchText }) => {
   const filteredList = useMemo(() => {
     const filteredQuizzes = quiz.quizzes.filter((quiz) =>
-      quiz.title.includes(searchText)
+      quiz.title.toLowerCase().includes(searchText.toLowerCase())
     );
     return filteredQuizzes;
   }, [searchText]);
