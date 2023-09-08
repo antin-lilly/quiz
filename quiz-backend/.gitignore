@@ -17,3 +17,4 @@ fiber-gorm-mysql-backend
 # vendor/
 
 .env
+tmp/

@@ -1,16 +1,5 @@
-FROM golang:latest AS build
-WORKDIR /app
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download
+FROM golang:1.19.0
+WORKDIR /usr/src/app
+RUN go install github.com/cosmtrek/air@latest
 COPY . .
-RUN go build -o ./backend .
-EXPOSE 8080
-
-ENV DBHOST=mysql
-ENV DBUSER=root
-ENV DBPASSWORD=password
-ENV DBPORT=3306
-ENV DBNAME=quiz
-
-CMD ["./backend"]
+RUN go mod tidy
