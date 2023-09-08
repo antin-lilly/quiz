@@ -16,7 +16,6 @@ const App = () => {
   return (
 
     <NativeBaseProvider>
-      <ImageBackground  style={styles.imageBackground} source={Sprinkle}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -29,20 +28,9 @@ const App = () => {
             <Stack.Screen name="QuizResult" component={QuizResultScreen} options={{ title: 'Quiz Result' }} />
         </Stack.Navigator>
         </NavigationContainer>
-        </ImageBackground>
     </NativeBaseProvider>
   );
 }
-
-
-const styles = StyleSheet.create({
-
-  imageBackground: {
-    ...globalStyles.flex1,
-    resizeMode: "cover",
-  },
-});
-
 
 export default App;
 
