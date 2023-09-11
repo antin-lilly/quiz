@@ -25,4 +25,10 @@ export const globalStyles = StyleSheet.create({
   fontWeightBold: {
     fontWeight: "bold",
   },
+  backgroundColorSpecial: {
+    backgroundColor: "#28a2b1",
+  },
+  textColorSpecial: {
+    color: "#28a2b1",
+  },
 });
