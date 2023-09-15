@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"q3/rnd/src/model/option"
+	"q3/rnd/src/model/question"
+	"q3/rnd/src/model/quizz"
+	"q3/rnd/src/model/todo"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -44,6 +48,10 @@ func Connect() {
 		log.Fatal(err)
 	}
 	DB = db
+	err = db.AutoMigrate(&todo.TODO{}, &quizz.Quiz{}, &question.Question{}, &option.Option{})
+	if err != nil {
+		panic("Failed to auto-migrate database tables")
+	}
 }
 
 // GetConfig for debuging
