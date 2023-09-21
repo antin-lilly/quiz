@@ -1,4 +1,4 @@
-package quizz
+package quiz
 
 import (
 	"gorm.io/gorm"
@@ -14,7 +14,7 @@ type Quiz struct {
 	UpdatedAt        time.Time `json:"updated_at"`
 }
 
-func CreateQuiz(db *gorm.DB, quiz *Quiz) error {
+func (q Quiz) CreateQuiz(db *gorm.DB, quiz *Quiz) error {
 	return db.Create(quiz).Error
 }
 
@@ -24,7 +24,7 @@ func GetQuizByID(db *gorm.DB, id int) (*Quiz, error) {
 	return &quiz, err
 }
 
-func UpdateQuiz(db *gorm.DB, quiz *Quiz) error {
+func (q Quiz) UpdateQuiz(db *gorm.DB, quiz *Quiz) error {
 	return db.Save(quiz).Error
 }
 

@@ -16,7 +16,7 @@ type Question struct {
 	UpdatedAt    time.Time    `json:"updated_at"`
 }
 
-func CreateQuestion(db *gorm.DB, question *Question) error {
+func (q Question) CreateQuestion(db *gorm.DB, question *Question) error {
 	return db.Create(question).Error
 }
 
@@ -25,7 +25,7 @@ func GetQuestionsForQuiz(db *gorm.DB, quizID int) ([]Question, error) {
 	err := db.Where("quiz_id = ?", quizID).Find(&questions).Error
 	return questions, err
 }
-func UpdateQuestion(db *gorm.DB, question *Question) error {
+func (q Question) UpdateQuestion(db *gorm.DB, question *Question) error {
 	return db.Save(question).Error
 }
 
