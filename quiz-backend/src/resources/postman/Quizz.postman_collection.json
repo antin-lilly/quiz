@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "76c3f9aa-3d70-4b61-89e5-755c0411ef78",
+		"name": "Quizz",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "17321495",
+		"_collection_link": "https://universal-station-363125.postman.co/workspace/My-Workspace~259737d9-84d1-496d-8f19-335c612876ef/collection/17321495-76c3f9aa-3d70-4b61-89e5-755c0411ef78?action=share&creator=17321495&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "quizz",
+			"item": [
+				{
+					"name": "CreateQuiz",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n  \"id\": \"3\",\n  \"title\": \"Sample Quiz\",\n  \"description\": \"This is a sample quiz\",\n  \"unique_identifier\": \"quiz123\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/quizzes"
+					},
+					"response": []
+				},
+				{
+					"name": "GetQuizByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/api/quizzes/2"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateQuiz",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"2\",\n  \"title\": \"Sample Quiz updated\",\n  \"description\": \"This is a sample quiz\",\n  \"unique_identifier\": \"quiz123\",\n  \"created-at\": \"2023-09-22T08:19:41.300234125Z\",\n  \"updated-at\": \"2023-09-22T08:19:41.300234125Z\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/quizzes"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteQuiz",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/api/quizzes/2"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "option",
+			"item": [
+				{
+					"name": "CreateOption",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"1\",\n    \"question_id\": \"1\",\n    \"option_text\": \"option text\",\n    \"is_correct\": true\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/options"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateOption",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"1\",\n    \"question_id\": \"1\",\n    \"option_text\": \"option text updated\",\n    \"is_correct\": true,\n    \"created-at\": \"2023-09-22T11:20:03.433326969Z\",\n    \"updated-at\": \"2023-09-22T11:20:03.433326969Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/options"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteOption",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/api/options/1"
+					},
+					"response": []
+				},
+				{
+					"name": "GetOptionsForQuestion",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "question",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\" : \"1\",\n    \"quizz_id\" : \"1\",\n    \"question_text\" : \"Some question\",\n    \"question_type\": 1\n\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/questions"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateQuestion",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"1\",\n    \"quiz_id\": \"\",\n    \"question_text\": \"Some question updated\",\n    \"question_type\": 1,\n    \"created-at\": \"2023-09-22T09:04:21.755755255Z\",\n    \"updated-at\": \"2023-09-22T09:04:21.755755255Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/api/questions"
+					},
+					"response": []
+				},
+				{
+					"name": "GetQuestionsForQuizHandle",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/api/quizzes/1/questions"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

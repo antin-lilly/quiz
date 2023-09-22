@@ -17,6 +17,24 @@ func Create() *fiber.App {
 	app.Put("/api/todos", controller.TodoPut)
 	app.Delete("/api/todos", controller.TodoDel)
 
+	//options
+	app.Post("/api/options", controller.CreateOptionHandler)
+	app.Put("/api/options", controller.UpdateOptionHandler)
+	app.Delete("/api/options/:id", controller.DeleteOptionHandler)
+	app.Get("/api/questions/:question_id/options", controller.GetOptionsForQuestionHandler)
+
+	//questions
+	app.Post("/api/questions", controller.CreateQuestionHandler)
+	app.Put("/api/questions", controller.UpdateQuestionHandler)
+	app.Delete("/api/questions/:id", controller.DeleteQuestionHandler)
+	app.Get("/api/quizzes/:quiz_id/questions", controller.GetQuestionsForQuizHandler)
+
+	//quiz
+	app.Post("/api/quizzes", controller.CreateQuizHandler)
+	app.Get("/api/quizzes/:id", controller.GetQuizByIDHandler)
+	app.Put("/api/quizzes", controller.UpdateQuizHandler)
+	app.Delete("/api/quizzes/:id", controller.DeleteQuizHandler)
+
 	app.Get("/config", Config)
 
 	return app
