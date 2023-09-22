@@ -7,11 +7,11 @@ import (
 
 type TODO struct {
 	gorm.Model
-	ID        string    `json:""`
-	CreatedAt time.Time `json:""`
-	Done      bool      `json:""`
-	Subject   string    `json:""`
-	Note      string    `json:""`
+	ID        string    `json:"id"`
+	CreatedAt time.Time `json:"created-at"`
+	Done      bool      `json:"done"`
+	Subject   string    `json:"subject"`
+	Note      string    `json:"note"`
 }
 
 func Create(db *gorm.DB, t *TODO) error {

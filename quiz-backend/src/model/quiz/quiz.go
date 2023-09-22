@@ -6,28 +6,30 @@ import (
 )
 
 type Quiz struct {
-	ID               int       `json:"id"`
+	ID               string    `json:"id"`
 	Title            string    `json:"title"`
 	Description      string    `json:"description"`
 	UniqueIdentifier string    `json:"unique_identifier"`
-	CreatedAt        time.Time `json:"created_at"`
-	UpdatedAt        time.Time `json:"updated_at"`
+	CreatedAt        time.Time `json:"created-at"`
+	UpdatedAt        time.Time `json:"updated-at"`
 }
 
-func (q Quiz) CreateQuiz(db *gorm.DB, quiz *Quiz) error {
+func CreateQuiz(db *gorm.DB, quiz *Quiz) error {
 	return db.Create(quiz).Error
 }
 
-func GetQuizByID(db *gorm.DB, id int) (*Quiz, error) {
-	var quiz Quiz
-	err := db.First(&quiz, id).Error
-	return &quiz, err
+func GetQuizByID(db *gorm.DB, q *Quiz, id string) error {
+	return db.Where("id = ?", id).First(q).Error
 }
 
-func (q Quiz) UpdateQuiz(db *gorm.DB, quiz *Quiz) error {
+func UpdateQuiz(db *gorm.DB, quiz *Quiz) error {
 	return db.Save(quiz).Error
 }
 
-func DeleteQuiz(db *gorm.DB, id int) error {
-	return db.Delete(&Quiz{}, id).Error
+func DeleteQuiz(db *gorm.DB, id string) error {
+	quiz := &Quiz{}
+	if err := GetQuizByID(db, quiz, id); err != nil {
+		return err
+	}
+	return db.Where("id = ?", id).Delete(quiz).Error
 }

@@ -1,65 +1,50 @@
 package controller
 
 import (
-	"encoding/json"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
+	"q3/rnd/src/database"
 	"q3/rnd/src/model/option"
-	"strconv"
+	"q3/rnd/src/model/question"
 )
 
 var db *gorm.DB
 
 func CreateOptionHandler(c *fiber.Ctx) error {
-	var opt option.Option
-	if err := json.Unmarshal(c.Body(), &opt); err != nil {
-		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
+	o := &option.Option{}
+	if err := c.BodyParser(o); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
-
-	if err := option.CreateOption(db, &opt); err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	if err := option.CreateOption(database.DB, o); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
-
-	c.Status(fiber.StatusCreated)
-	return c.JSON(opt)
+	return c.Status(fiber.StatusOK).JSON(o)
 }
 
 func GetOptionsForQuestionHandler(c *fiber.Ctx) error {
-	questionID, err := strconv.Atoi(c.Params("question_id"))
+	questionID := c.Params("question_id")
+	questions, err := question.GetQuestionsForQuiz(database.DB, questionID)
 	if err != nil {
-		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
-
-	options, err := option.GetOptionsForQuestion(db, questionID)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
-	}
-
-	return c.JSON(options)
+	return c.Status(fiber.StatusOK).JSON(questions)
 }
 
 func UpdateOptionHandler(c *fiber.Ctx) error {
-	var opt option.Option
-	if err := json.Unmarshal(c.Body(), &opt); err != nil {
-		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
+	o := &option.Option{}
+	if err := c.BodyParser(o); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
-
-	if err := option.UpdateOption(db, &opt); err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
+	if err := option.UpdateOption(database.DB, o); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
-
-	return c.JSON(opt)
+	return c.Status(fiber.StatusOK).JSON(o)
 }
 
 func DeleteOptionHandler(c *fiber.Ctx) error {
-	id, err := strconv.Atoi(c.Params("id"))
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).SendString(err.Error())
+	id := c.Params("id")
+	if err := option.DeleteOption(database.DB, id); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
-
-	if err := option.DeleteOption(db, id); err != nil {
-		return c.Status(fiber.StatusInternalServerError).SendString(err.Error())
-	}
-
-	return c.SendStatus(fiber.StatusNoContent)
+	return c.Status(fiber.StatusNoContent).JSON(id)
 }
