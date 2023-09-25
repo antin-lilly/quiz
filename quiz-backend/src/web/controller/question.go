@@ -27,9 +27,13 @@ func GetQuestionsForQuizHandler(c *fiber.Ctx) error {
 }
 
 func UpdateQuestionHandler(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
 	q := &question.Question{}
 	if err := c.BodyParser(q); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+	if q.ID != int64(id) {
+		return c.Status(fiber.StatusBadRequest).JSON(err)
 	}
 	if err := question.UpdateQuestion(database.DB, q); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())

@@ -7,12 +7,12 @@ import (
 )
 
 type Option struct {
-	ID         string    `json:"id"`
-	QuestionID string    `json:"question_id"`
-	OptionText string    `json:"option_text"`
-	IsCorrect  bool      `json:"is_correct"`
-	CreatedAt  time.Time `json:"created-at"`
-	UpdatedAt  time.Time `json:"updated-at"`
+	ID         int64     `gorm:"primary_key;auto_increment;not_null"`
+	QuestionID int64     `json:"questionId"`
+	OptionText string    `json:"optionText"`
+	IsCorrect  bool      `json:"isCorrect"`
+	CreatedAt  time.Time `json:"createdAt"`
+	UpdatedAt  time.Time `json:"updatedAt"`
 }
 
 func CreateOption(db *gorm.DB, option *Option) error {
@@ -32,13 +32,13 @@ func UpdateOption(db *gorm.DB, option *Option) error {
 }
 
 func DeleteOption(db *gorm.DB, id string) error {
-	options, err := GetOptionsForQuestion(db, id)
-	if err != nil {
-		return err
-	}
-	if len(options) == 0 {
+	option := getOne(db, id)
+	if option != nil {
 		return fmt.Errorf("no options found with ID %s", id)
 	}
-	option := &Option{}
-	return db.Where("id = ?", id).Delete(option).Error
+	return db.Where("id = ?", id).Delete(&Option{}).Error
+}
+
+func getOne(db *gorm.DB, id string) error {
+	return db.Where("id = ?", id).First(&Option{}).Error
 }

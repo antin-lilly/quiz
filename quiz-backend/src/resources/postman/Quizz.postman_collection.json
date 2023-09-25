@@ -1,10 +1,8 @@
 {
 	"info": {
-		"_postman_id": "76c3f9aa-3d70-4b61-89e5-755c0411ef78",
+		"_postman_id": "64f3f0f9-8412-4b75-a8c4-9535c2532dfb",
 		"name": "Quizz",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "17321495",
-		"_collection_link": "https://universal-station-363125.postman.co/workspace/My-Workspace~259737d9-84d1-496d-8f19-335c612876ef/collection/17321495-76c3f9aa-3d70-4b61-89e5-755c0411ef78?action=share&creator=17321495&source=collection_link"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -24,7 +22,18 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/api/quizzes"
+						"url": {
+							"raw": "http://localhost:8080/api/quizzes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"quizzes"
+							]
+						}
 					},
 					"response": []
 				},
@@ -33,7 +42,40 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/api/quizzes/2"
+						"url": {
+							"raw": "http://localhost:8080/api/quizzes/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"quizzes",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getQuizzes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/quizzes/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"quizzes",
+								"2"
+							]
+						}
 					},
 					"response": []
 				},
@@ -51,7 +93,18 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/api/quizzes"
+						"url": {
+							"raw": "http://localhost:8080/api/quizzes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"quizzes"
+							]
+						}
 					},
 					"response": []
 				},
@@ -60,7 +113,19 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/api/quizzes/2"
+						"url": {
+							"raw": "http://localhost:8080/api/quizzes/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"quizzes",
+								"2"
+							]
+						}
 					},
 					"response": []
 				}
@@ -83,7 +148,18 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/api/options"
+						"url": {
+							"raw": "http://localhost:8080/api/options",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"options"
+							]
+						}
 					},
 					"response": []
 				},
@@ -101,7 +177,18 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/api/options"
+						"url": {
+							"raw": "http://localhost:8080/api/options",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"options"
+							]
+						}
 					},
 					"response": []
 				},
@@ -110,7 +197,19 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/api/options/1"
+						"url": {
+							"raw": "http://localhost:8080/api/options/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"options",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -118,7 +217,10 @@
 					"name": "GetOptionsForQuestion",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				}
@@ -141,7 +243,18 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/api/questions"
+						"url": {
+							"raw": "http://localhost:8080/api/questions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"questions"
+							]
+						}
 					},
 					"response": []
 				},
@@ -159,7 +272,18 @@
 								}
 							}
 						},
-						"url": "http://localhost:8080/api/questions"
+						"url": {
+							"raw": "http://localhost:8080/api/questions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"questions"
+							]
+						}
 					},
 					"response": []
 				},
@@ -167,7 +291,10 @@
 					"name": "GetQuestionsForQuizHandle",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -176,7 +303,20 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"url": "http://localhost:8080/api/quizzes/1/questions"
+						"url": {
+							"raw": "http://localhost:8080/api/quizzes/1/questions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"quizzes",
+								"1",
+								"questions"
+							]
+						}
 					},
 					"response": []
 				}

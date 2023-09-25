@@ -6,12 +6,12 @@ import (
 )
 
 type Quiz struct {
-	ID               string    `json:"id"`
+	ID               int64     `gorm:"primary_key;auto_increment;not_null"`
 	Title            string    `json:"title"`
 	Description      string    `json:"description"`
-	UniqueIdentifier string    `json:"unique_identifier"`
-	CreatedAt        time.Time `json:"created-at"`
-	UpdatedAt        time.Time `json:"updated-at"`
+	UniqueIdentifier string    `json:"uniqueIdentifier"`
+	CreatedAt        time.Time `json:"createdAt"`
+	UpdatedAt        time.Time `json:"updatedAt"`
 }
 
 func CreateQuiz(db *gorm.DB, quiz *Quiz) error {
@@ -20,6 +20,10 @@ func CreateQuiz(db *gorm.DB, quiz *Quiz) error {
 
 func GetQuizByID(db *gorm.DB, q *Quiz, id string) error {
 	return db.Where("id = ?", id).First(q).Error
+}
+
+func GetAll(db *gorm.DB, t *[]Quiz) error {
+	return db.Find(t).Error
 }
 
 func UpdateQuiz(db *gorm.DB, quiz *Quiz) error {

@@ -26,13 +26,25 @@ func GetQuizByIDHandler(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(&[]quiz.Quiz{*q})
 }
 
+func GetQuizzes(c *fiber.Ctx) error {
+	t := &[]quiz.Quiz{}
+	if err := quiz.GetAll(database.DB, t); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+	return c.Status(fiber.StatusOK).JSON(t)
+}
+
 func UpdateQuizHandler(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
 	q := &quiz.Quiz{}
 	if err := c.BodyParser(q); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
+	if q.ID != int64(id) {
+		return c.Status(fiber.StatusBadRequest).JSON(err)
+	}
 	if err := quiz.UpdateQuiz(database.DB, q); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+		return c.Status(fiber.StatusNotFound).JSON(err.Error())
 	}
 	return c.Status(fiber.StatusOK).JSON(q)
 }

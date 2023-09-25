@@ -8,12 +8,12 @@ import (
 )
 
 type Question struct {
-	ID           string             `json:"id"`
-	QuizID       string             `json:"quiz_id"`
-	QuestionText string             `json:"question_text"`
-	QuestionType enums.QuestionType `json:"question_type"`
-	CreatedAt    time.Time          `json:"created-at"`
-	UpdatedAt    time.Time          `json:"updated-at"`
+	ID           int64              `gorm:"primary_key;auto_increment;not_null"`
+	QuizID       int64              `json:"quizId"`
+	QuestionText string             `json:"questionText"`
+	QuestionType enums.QuestionType `json:"questionType"`
+	CreatedAt    time.Time          `json:"createdAt"`
+	UpdatedAt    time.Time          `json:"updatedAt"`
 }
 
 func CreateQuestion(db *gorm.DB, question *Question) error {
@@ -33,13 +33,13 @@ func UpdateQuestion(db *gorm.DB, question *Question) error {
 }
 
 func DeleteQuestion(db *gorm.DB, id string) error {
-	questions, err := GetQuestionsForQuiz(db, id)
-	if err != nil {
-		return err
-	}
-	if len(questions) == 0 {
+	option := getOne(db, id)
+	if option != nil {
 		return fmt.Errorf("no questions found with ID %s", id)
 	}
-	question := &Question{}
-	return db.Where("id = ?", id).Delete(question).Error
+	return db.Where("id = ?", id).Delete(&Question{}).Error
+}
+
+func getOne(db *gorm.DB, id string) error {
+	return db.Where("id = ?", id).First(&Question{}).Error
 }

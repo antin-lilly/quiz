@@ -5,7 +5,6 @@ import (
 	"gorm.io/gorm"
 	"q3/rnd/src/database"
 	"q3/rnd/src/model/option"
-	"q3/rnd/src/model/question"
 )
 
 var db *gorm.DB
@@ -23,7 +22,7 @@ func CreateOptionHandler(c *fiber.Ctx) error {
 
 func GetOptionsForQuestionHandler(c *fiber.Ctx) error {
 	questionID := c.Params("question_id")
-	questions, err := question.GetQuestionsForQuiz(database.DB, questionID)
+	questions, err := option.GetOptionsForQuestion(database.DB, questionID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
@@ -31,9 +30,13 @@ func GetOptionsForQuestionHandler(c *fiber.Ctx) error {
 }
 
 func UpdateOptionHandler(c *fiber.Ctx) error {
+	id, err := c.ParamsInt("id")
 	o := &option.Option{}
 	if err := c.BodyParser(o); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+	if o.ID != int64(id) {
+		return c.Status(fiber.StatusBadRequest).JSON(err)
 	}
 	if err := option.UpdateOption(database.DB, o); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
