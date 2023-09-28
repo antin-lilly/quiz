@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 const QuestionList = ({ navigation, searchText }) => {
-  const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
+  const { setLoading, isLoading } = useContext(LoadingContext);
   const [quizzes, setQuizzes] = useState([]);
 
   const filteredList = useMemo(() => {
@@ -55,7 +55,7 @@ const QuestionList = ({ navigation, searchText }) => {
   }, []);
 
   const fetchQuestions = () => {
-    startLoading();
+    setLoading(true);
 
     QuizService.getAll()
       .then((response) => {
@@ -65,7 +65,7 @@ const QuestionList = ({ navigation, searchText }) => {
         console.error("Error fetching quizzes:", error);
       })
       .finally(() => {
-        stopLoading();
+        setLoading(false);
       });
   };
 
