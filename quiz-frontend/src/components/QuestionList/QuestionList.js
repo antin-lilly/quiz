@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useContext, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { Button, Box, Text } from "native-base";
-// import quiz from "../../mockData/mockData";
 import { globalStyles } from "../../globalStyles";
 import QuizService from "../../services/Quiz.service";
 import { LoadingContext } from "../../contexts/LoadingContext";
