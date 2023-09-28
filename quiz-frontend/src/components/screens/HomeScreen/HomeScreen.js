@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, ImageBackground } from "react-native";
 import QuestionList from "../../QuestionList/QuestionList";
-import Loading from "../../Loading/Loading";
 import { View, Input, Icon } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import Sprinkle from "../../../assets/Sprinkle1.png";
 import useDebounce from "../../../hooks/useDebounceHook";
 import { globalStyles } from "../../../globalStyles";
-import { LoadingContext } from "../../../contexts/LoadingContext";
 
 const styles = StyleSheet.create({
   homeContainer: {
@@ -38,17 +36,8 @@ const styles = StyleSheet.create({
 });
 
 const HomeScreen = ({ navigation }) => {
-  const { startLoading, stopLoading } = useContext(LoadingContext);
   const [searchText, setSearchText] = useState("");
   const debouncedValue = useDebounce(searchText, 500);
-
-  // test for loader - will be used when backend is implemented
-  useEffect(() => {
-    startLoading();
-    setTimeout(() => {
-      stopLoading();
-    }, 1000);
-  }, []);
 
   const handleSearch = (value) => {
     setSearchText(value);
