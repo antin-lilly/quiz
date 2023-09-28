@@ -4,6 +4,9 @@ import { Button, Box, Text } from "native-base";
 import { globalStyles } from "../../globalStyles";
 import QuizService from "../../services/Quiz.service";
 import { LoadingContext } from "../../contexts/LoadingContext";
+import LoadingWrapper from "../Loading/LoadingWrapper";
+// import Loading from "../Loading/Loading";
+import useLoader from "../../hooks/useLoader";
 
 const styles = StyleSheet.create({
   quizItemContainer: {
@@ -40,7 +43,10 @@ const styles = StyleSheet.create({
 });
 
 const QuestionList = ({ navigation, searchText }) => {
-  const { startLoading, stopLoading, isLoading } = useContext(LoadingContext);
+  // const { startLoading, stopLoading, isLoading, setLoading } =
+  // useContext(LoadingContext);
+  const { loading, setLoading } = useLoader();
+
   const [quizzes, setQuizzes] = useState([]);
 
   const filteredList = useMemo(() => {
@@ -55,8 +61,7 @@ const QuestionList = ({ navigation, searchText }) => {
   }, []);
 
   const fetchQuestions = () => {
-    startLoading();
-
+    setLoading(true);
     QuizService.getAll()
       .then((response) => {
         setQuizzes(response.data);
@@ -65,9 +70,11 @@ const QuestionList = ({ navigation, searchText }) => {
         console.error("Error fetching quizzes:", error);
       })
       .finally(() => {
-        stopLoading();
+        setLoading(false);
       });
   };
+
+  console.log(loading);
 
   const renderQuizItem = ({ item }) => (
     <Box style={styles.quizItemContainer} _last={{ borderBottomWidth: 0 }}>
@@ -87,7 +94,8 @@ const QuestionList = ({ navigation, searchText }) => {
 
   return (
     <>
-      {!isLoading && filteredList.length > 0 && (
+      <LoadingWrapper />
+      {!loading && filteredList.length > 0 && (
         <FlatList
           data={filteredList}
           renderItem={renderQuizItem}

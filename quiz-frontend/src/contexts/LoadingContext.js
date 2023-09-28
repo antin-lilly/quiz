@@ -14,7 +14,9 @@ const LoadingProvider = ({ children }) => {
   };
 
   return (
-    <LoadingContext.Provider value={{ isLoading, startLoading, stopLoading }}>
+    <LoadingContext.Provider
+      value={{ isLoading, startLoading, stopLoading, setLoading }}
+    >
       {children}
     </LoadingContext.Provider>
   );

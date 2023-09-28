@@ -22,7 +22,7 @@ export default function App() {
             <Stack.Screen name="Quiz" component={ProfileScreen} />
           </Stack.Navigator>
         </NavigationContainer>
-        <Loading />
+        {/* <Loading /> */}
       </LoadingProvider>
     </NativeBaseProvider>
   );
