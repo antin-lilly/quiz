@@ -34,5 +34,11 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     alignSelf: "center",
-  }
+  },
+  backgroundColorSpecial: {
+    backgroundColor: "#28a2b1",
+  },
+  textColorSpecial: {
+    color: "#28a2b1",
+  },
 });

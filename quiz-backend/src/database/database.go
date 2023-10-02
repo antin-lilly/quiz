@@ -4,6 +4,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"q3/rnd/src/model/option"
+	"q3/rnd/src/model/question"
+	"q3/rnd/src/model/quiz"
+	"q3/rnd/src/model/todo"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -28,6 +33,26 @@ func init() {
 	dbname = os.Getenv("DBNAME")
 }
 
+func GetConfig() (string, string, string, string, string) {
+	return dbhost, dbport, dbuser, dbpassword, dbname
+}
+
+func SetupGorm(db *gorm.DB) {
+	db.Callback().Create().Before("gorm:create").Register("setCreatedAt", setCreatedAt)
+	db.Callback().Update().Before("gorm:update").Register("setUpdatedAt", setUpdatedAt)
+}
+
+func setCreatedAt(db *gorm.DB) {
+	now := time.Now()
+	db.Statement.SetColumn("CreatedAt", now)
+	db.Statement.SetColumn("UpdatedAt", now)
+}
+
+func setUpdatedAt(db *gorm.DB) {
+	now := time.Now()
+	db.Statement.SetColumn("UpdatedAt", now)
+}
+
 // Connect to MySQL server
 func Connect() {
 	fmt.Println(dbhost)
@@ -44,9 +69,9 @@ func Connect() {
 		log.Fatal(err)
 	}
 	DB = db
-}
-
-// GetConfig for debuging
-func GetConfig() (string, string, string, string, string) {
-	return dbhost, dbport, dbuser, dbpassword, dbname
+	err = db.AutoMigrate(&todo.TODO{}, &quiz.Quiz{}, &question.Question{}, &option.Option{})
+	if err != nil {
+		panic("Failed to auto-migrate database tables")
+	}
+	SetupGorm(db)
 }

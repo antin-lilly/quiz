@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useContext, useState } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { Button, Box, Text } from "native-base";
-import quiz from "../../mockData/mockData";
 import { globalStyles } from "../../globalStyles";
+import QuizService from "../../services/Quiz.service";
+import { LoadingContext } from "../../contexts/LoadingContext";
 
 const styles = StyleSheet.create({
   quizItemContainer: {
@@ -38,13 +39,42 @@ const styles = StyleSheet.create({
   },
 });
 
-const QuestionList = ({ navigation, searchText }) => {
-  const filteredList = useMemo(() => {
-    const filteredQuizzes = quiz.quizzes.filter((quiz) =>
-      quiz.title.includes(searchText)
+const QuestionList = ({ navigation, searchText }) =>
+{
+  const { setLoading, isLoading } = useContext(LoadingContext);
+  const [quizzes, setQuizzes] = useState([]);
+
+  const filteredList = useMemo(() =>
+  {
+    const filteredQuizzes = quizzes.filter((quiz) =>
+      quiz.title.toLowerCase().includes(searchText.toLowerCase())
     );
     return filteredQuizzes;
-  }, [searchText]);
+  }, [searchText, quizzes]);
+
+  useEffect(() =>
+  {
+    fetchQuestions();
+  }, []);
+
+  const fetchQuestions = () =>
+  {
+    setLoading(true);
+
+    QuizService.getAll()
+      .then((response) =>
+      {
+        setQuizzes(response.data);
+      })
+      .catch((error) =>
+      {
+        console.error("Error fetching quizzes:", error);
+      })
+      .finally(() =>
+      {
+        setLoading(false);
+      });
+  };
 
   const renderQuizItem = ({ item }) => (
     <Box style={styles.quizItemContainer} _last={{ borderBottomWidth: 0 }}>
@@ -52,7 +82,7 @@ const QuestionList = ({ navigation, searchText }) => {
       <Text style={styles.quizDescription}>{item.description}</Text>
       <Button
         onPress={() =>
-          navigation.navigate("Quiz", { quizId: item.id, title: item.title })
+          navigation.navigate("Quiz", { quizId: item.ID, title: item.title })
         }
         size="lg"
         style={styles.startButton}
@@ -63,12 +93,16 @@ const QuestionList = ({ navigation, searchText }) => {
   );
 
   return (
-    <FlatList
-      data={filteredList}
-      renderItem={renderQuizItem}
-      keyExtractor={(item) => item.id.toString()}
-      contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}
-    />
+    <>
+      {!isLoading && filteredList.length > 0 && (
+        <FlatList
+          data={filteredList}
+          renderItem={renderQuizItem}
+          keyExtractor={(item) => item.ID.toString()}
+          contentContainerStyle={{ paddingTop: 16, paddingBottom: 16 }}
+        />
+      )}
+    </>
   );
 };
 

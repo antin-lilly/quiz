@@ -1,10 +1,13 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import { Animated, Easing, StyleSheet } from "react-native";
-import { Box, View } from "native-base";
+import { Box, View, Text } from "native-base";
 import Brain from "../../assets/Brain.png";
+import { LoadingContext } from "../../contexts/LoadingContext";
+import { globalStyles } from "../../globalStyles";
 
 const Loading = () => {
   const spinValue = useRef(new Animated.Value(0)).current;
+  const { isLoading } = useContext(LoadingContext);
 
   useEffect(() => {
     Animated.loop(
@@ -22,9 +25,13 @@ const Loading = () => {
     outputRange: ["0deg", "360deg"],
   });
 
+  if (!isLoading) {
+    return null;
+  }
+
   return (
-    <Box style={styles.container}>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.overlay}>
         <Animated.Image
           source={Brain}
           alt="brain"
@@ -33,17 +40,34 @@ const Loading = () => {
             { transform: [{ rotateY: spin }] },
           ]}
         />
+        <Text style={styles.loadingText}>Loading...</Text>
       </View>
-    </Box>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    ...globalStyles.flex1,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(140,108,208,0.1)",
+    backgroundColor: "rgba(255,255,255,0.5)",
+    zIndex: 9,
+  },
+  overlay: {
+    alignItems: "center",
+  },
+  loadingText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    ...globalStyles.textColorSpecial,
+    marginTop: 20,
+    padding: 10,
   },
 });
 
