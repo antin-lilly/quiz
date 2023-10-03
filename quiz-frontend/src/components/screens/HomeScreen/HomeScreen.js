@@ -35,13 +35,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation }) =>
+{
   const [searchText, setSearchText] = useState("");
   const debouncedValue = useDebounce(searchText, 500);
 
-  const handleSearch = (value) => {
+  const handleSearch = (value) =>
+  {
     setSearchText(value);
   };
+
 
   return (
     <View style={styles.homeContainer}>

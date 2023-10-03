@@ -25,6 +25,16 @@ export const globalStyles = StyleSheet.create({
   fontWeightBold: {
     fontWeight: "bold",
   },
+  button: {
+    backgroundColor: "#8c6cd0", // Default button color
+    paddingBottom: 10,
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    alignItems: "center",
+    width: "100%",
+    alignSelf: "center",
+  },
   backgroundColorSpecial: {
     backgroundColor: "#28a2b1",
   },

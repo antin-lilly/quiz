@@ -39,32 +39,39 @@ const styles = StyleSheet.create({
   },
 });
 
-const QuestionList = ({ navigation, searchText }) => {
+const QuestionList = ({ navigation, searchText }) =>
+{
   const { setLoading, isLoading } = useContext(LoadingContext);
   const [quizzes, setQuizzes] = useState([]);
 
-  const filteredList = useMemo(() => {
+  const filteredList = useMemo(() =>
+  {
     const filteredQuizzes = quizzes.filter((quiz) =>
       quiz.title.toLowerCase().includes(searchText.toLowerCase())
     );
     return filteredQuizzes;
   }, [searchText, quizzes]);
 
-  useEffect(() => {
+  useEffect(() =>
+  {
     fetchQuestions();
   }, []);
 
-  const fetchQuestions = () => {
+  const fetchQuestions = () =>
+  {
     setLoading(true);
 
     QuizService.getAll()
-      .then((response) => {
+      .then((response) =>
+      {
         setQuizzes(response.data);
       })
-      .catch((error) => {
+      .catch((error) =>
+      {
         console.error("Error fetching quizzes:", error);
       })
-      .finally(() => {
+      .finally(() =>
+      {
         setLoading(false);
       });
   };
