@@ -14,7 +14,7 @@ const QuizResultScreen = ({ route, navigation }) =>
     <ImageBackground style={styles.imageBackground} source={Sprinkle}>
       <View style={styles.container}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.result}>You scored {score} out of {totalQuestions}</Text>
+        <Text style={styles.result} allowFontScaling >You scored {score} out of {totalQuestions}</Text>
         <StyledButton size="lg" text="Go Back to Home" onPress={() => navigation.navigate('Home')} />
       </View>
     </ImageBackground>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   result: {
     padding: 40,
     ...globalStyles.fontWeightBold,
-    fontSize: 30,
+    fontSize: 20,
   }
 });
 
