@@ -1,8 +1,9 @@
 package web
 
 import (
-	"github.com/gofiber/fiber/v2"
 	"q3/rnd/src/web/controller"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 // Create new REST API serveer
@@ -35,6 +36,13 @@ func Create() *fiber.App {
 	app.Get("/api/quizzes/:id", controller.GetQuizByIDHandler)
 	app.Put("/api/quizzes/:id", controller.UpdateQuizHandler)
 	app.Delete("/api/quizzes/:id", controller.DeleteQuizHandler)
+
+	//user
+	app.Post("/api/users", controller.CreateUserHandler)
+	app.Get("/api/users", controller.GetUsers)
+	app.Get("/api/users/:id", controller.GetUserByIDHandler)
+	app.Put("/api/users/:id", controller.UpdateUserHandler)
+	app.Delete("/api/users/:id", controller.DeleteUserHandler)
 
 	app.Get("/config", Config)
 

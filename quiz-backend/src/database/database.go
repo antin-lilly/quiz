@@ -8,6 +8,7 @@ import (
 	"q3/rnd/src/model/question"
 	"q3/rnd/src/model/quiz"
 	"q3/rnd/src/model/todo"
+	"q3/rnd/src/model/user"
 	"time"
 
 	"gorm.io/driver/mysql"
@@ -69,7 +70,7 @@ func Connect() {
 		log.Fatal(err)
 	}
 	DB = db
-	err = db.AutoMigrate(&todo.TODO{}, &quiz.Quiz{}, &question.Question{}, &option.Option{})
+	err = db.AutoMigrate(&todo.TODO{}, &quiz.Quiz{}, &question.Question{}, &option.Option{}, &user.User{})
 	if err != nil {
 		panic("Failed to auto-migrate database tables")
 	}
