@@ -8,10 +8,9 @@ import (
 
 type User struct {
 	ID        int64     `gorm:"primary_key;auto_increment;not_null"`
-	FirstName string    `json:"firstname"`
-	LastName  string    `json:"lastname"`
 	Username  string    `json:"username"`
 	Password  string    `json:"password"`
+	Admin     bool      `json:"admin"`
 	CreatedAt time.Time `json:"created-at"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
