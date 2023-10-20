@@ -9,10 +9,13 @@ import (
 	"q3/rnd/src/model/quiz"
 	"q3/rnd/src/model/todo"
 	"q3/rnd/src/model/user"
+
 	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 var (
@@ -74,5 +77,24 @@ func Connect() {
 	if err != nil {
 		panic("Failed to auto-migrate database tables")
 	}
+
 	SetupGorm(db)
+
+	// Create admin user with default password if user does not exist already
+	adminUser := &user.User{}
+	result := db.First(adminUser, "admin = ?", true)
+
+	if result.RowsAffected == 0 {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte("admin"), bcrypt.DefaultCost)
+		if err != nil {
+			panic("Failed to initialize admin user")
+		}
+
+		admin := &user.User{
+			Username: "admin",
+			Password: string(hashedPassword),
+			Admin:    true,
+		}
+		db.Create(admin)
+	}
 }
