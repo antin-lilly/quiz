@@ -45,6 +45,7 @@ func Create() *fiber.App {
 	app.Put("/api/users/:id", middleware.AuthMiddleware(), controller.UpdateUserHandler)
 	app.Delete("/api/users/:id", middleware.AuthMiddleware(), controller.DeleteUserHandler)
 	app.Post("/api/users/login", controller.AuthenticateUserHandler)
+	app.Get("/api/me", middleware.AuthMiddleware(), controller.CurrentUserHandler)
 
 	app.Get("/config", Config)
 

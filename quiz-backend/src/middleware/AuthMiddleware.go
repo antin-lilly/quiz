@@ -4,6 +4,8 @@ import (
 	auth_service "q3/rnd/src/service/auth-service"
 
 	"github.com/gofiber/fiber/v2"
+
+	"github.com/golang-jwt/jwt"
 )
 
 func AuthMiddleware() fiber.Handler {
@@ -22,6 +24,10 @@ func AuthMiddleware() fiber.Handler {
 				"message": "Invalid token",
 			})
 		}
+
+		claims := token.Claims.(jwt.MapClaims)
+		userID := int64(claims["user_id"].(float64))
+		c.Locals("user_id", userID)
 
 		return c.Next()
 	}

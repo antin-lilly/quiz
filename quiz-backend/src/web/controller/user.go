@@ -7,6 +7,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 
+	"fmt"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -85,7 +87,6 @@ func AuthenticateUserHandler(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(err)
 	}
 
-	// Retrieve the user from the database by username
 	storedUser := &user.User{}
 	if err := user.GetUserByUsername(database.DB, storedUser, loginData.Username); err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
@@ -93,20 +94,33 @@ func AuthenticateUserHandler(c *fiber.Ctx) error {
 		})
 	}
 
-	// Compare the provided password with the stored hash
 	err := bcrypt.CompareHashAndPassword([]byte(storedUser.Password), []byte(loginData.Password))
 	if err != nil {
-		// Passwords do not match
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"message": "Invalid username or password",
 		})
 	}
 
-	// Passwords match, generate token and respond
 	token, err := auth_service.GenerateToken(storedUser.ID)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"token": token})
+}
+
+func CurrentUserHandler(c *fiber.Ctx) error {
+	userID, ok := c.Locals("user_id").(int64)
+	if !ok {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal Server Error",
+		})
+	}
+
+	u := &user.User{}
+	if err := user.GetUserByID(database.DB, u, fmt.Sprintf("%d", userID)); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+
+	return c.JSON(u)
 }
