@@ -106,7 +106,7 @@ func AuthenticateUserHandler(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{"token": token})
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{"token": token, "admin": storedUser.Admin})
 }
 
 func CurrentUserHandler(c *fiber.Ctx) error {
