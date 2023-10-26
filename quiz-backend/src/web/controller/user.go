@@ -124,3 +124,23 @@ func CurrentUserHandler(c *fiber.Ctx) error {
 
 	return c.JSON(u)
 }
+
+func ValidateTokenHandler(c *fiber.Ctx) error {
+	tokenString := c.Get("Authorization")
+	if tokenString == "" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "Authorization header is missing",
+		})
+	}
+
+	token, err := auth_service.VerifyToken(tokenString)
+	if err != nil || !token.Valid {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "Invalid token",
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": "Token is valid",
+	})
+}

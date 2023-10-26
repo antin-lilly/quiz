@@ -1,12 +1,17 @@
 import { Button, FloatButton, Input, Layout, Popconfirm, Switch, Table } from 'antd'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import QuestionService from '../service/Question.service'
 import { CheckOutlined, CloseOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { Controller, useForm } from 'react-hook-form'
 import OptionService from '../service/Option.service'
+import AuthService from '../service/Auth.service'
 
 const Question = () => {
+
+  const token = localStorage.getItem('token');
+
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -87,13 +92,24 @@ const Question = () => {
       setAdding(false)
       fetchOptions()
     }
+    validateToken(token)
   }, [params.id])
 
   const fetchOptions = () => {
-    QuestionService.getOptions(params.id).then(response => {
+    QuestionService.getOptions(params.id, token).then(response => {
       setOptions(response.data);
     })
   }
+
+  const validateToken = async (token) => {
+    try {
+      const response = await AuthService.validateToken(token);
+    } catch (error) {
+      console.error('Error:', error);
+      localStorage.removeItem('token');
+      navigate('/');
+    }
+  };
 
   const handleAdd = () => {
     setAdding(true);
@@ -120,7 +136,7 @@ const Question = () => {
   }
 
   const handleAddOption = (values) => {
-    OptionService.post({...values, questionId: +params?.id}).then(() => {
+    OptionService.post({...values, questionId: +params?.id}, token).then(() => {
       setAdding(false)
       setEditing(false)
       fetchOptions();
@@ -128,7 +144,7 @@ const Question = () => {
   }
 
   const handleEditOption = (values, item) => {
-    OptionService.put(item.ID, {...item,...values}).then(() => {
+    OptionService.put(item.ID, {...item,...values}, token).then(() => {
       setAdding(false)
       setEditing(false)
       fetchOptions();
@@ -136,7 +152,7 @@ const Question = () => {
   }
 
   const handleDeleteOption = (id) => {
-    OptionService.delete(id).then(fetchOptions)
+    OptionService.delete(id, token).then(fetchOptions)
   }
 
   return <Layout style={{paddingLeft: 30, paddingRight: 30}}>

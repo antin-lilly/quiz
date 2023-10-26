@@ -1,10 +1,10 @@
 import { axiosInstance } from './HTTP'
 
 const QuestionService = {
-  getOptions: (id) => axiosInstance.get(`/questions/${id}/options`),
-  post: (data = {}) => axiosInstance.post(`/questions`, data),
-  put: (id, data = {}) => axiosInstance.put(`/questions/${id}`, data),
-  delete: (id) => axiosInstance.delete(`/questions/${id}`),
+  getOptions: (id, token) => axiosInstance.get(`/questions/${id}/options`, { headers: { Authorization: token } }),
+  post: (data = {}, token) => axiosInstance.post(`/questions`, data, { headers: { Authorization: token } }),
+  put: (id, data = {}, token) => axiosInstance.put(`/questions/${id}`, data, { headers: { Authorization: token } }),
+  delete: (id, token) => axiosInstance.delete(`/questions/${id}`, { headers: { Authorization: token } }),
 
 }
 

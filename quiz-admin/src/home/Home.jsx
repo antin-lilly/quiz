@@ -4,8 +4,11 @@ import QuizService from '../service/Quiz.service'
 import { useNavigate } from 'react-router-dom'
 import { DeleteOutlined, EditOutlined, FileOutlined, PlusOutlined } from '@ant-design/icons'
 import { Controller, useForm } from 'react-hook-form'
+import AuthService from '../service/Auth.service'
 
 const Home = () => {
+
+  const token = localStorage.getItem('token');
 
   const [quizzes, setQuizzes] = useState([])
   const navigate = useNavigate();
@@ -15,13 +18,26 @@ const Home = () => {
 
   useEffect(() => {
     fetchQuizzes()
+    if (token) {
+      validateToken(token);
+    }
   }, [])
 
   const fetchQuizzes = () => {
-    QuizService.getAll().then(response => {
+    QuizService.getAll(token).then(response => {
       setQuizzes(response.data);
     })
   }
+
+  const validateToken = async (token) => {
+    try {
+      const response = await AuthService.validateToken(token);
+    } catch (error) {
+      console.error('Error:', error);
+      localStorage.removeItem('token');
+      navigate('/');
+    }
+  };
 
   const getItem = (item) => {
     if (item?.adding || item?.editing) {
@@ -74,14 +90,14 @@ const Home = () => {
   }
 
   const handleAddQuiz = (values) => {
-    QuizService.post(values).then(() => {
+    QuizService.post(values, token).then(() => {
       setAdding(false);
       setEditing(false);
       fetchQuizzes()
     })
   }
   const handleEditQuiz = (values, item) => {
-    QuizService.put(item.ID, { ...item,...values }).then(() => {
+    QuizService.put(item.ID, { ...item,...values }, token).then(() => {
       setAdding(false);
       setEditing(false);
       fetchQuizzes()
@@ -112,7 +128,7 @@ const Home = () => {
   }
 
   const handleDeleteQuiz = (id) => {
-    QuizService.delete(id).then(fetchQuizzes)
+    QuizService.delete(id, token).then(fetchQuizzes)
   }
 
   return <Layout>
