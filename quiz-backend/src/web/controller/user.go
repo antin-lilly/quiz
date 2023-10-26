@@ -28,6 +28,8 @@ func CreateUserHandler(c *fiber.Ctx) error {
 	if err := user.CreateUser(database.DB, u); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
+
+	u.Password = ""
 	return c.Status(fiber.StatusOK).JSON(u)
 }
 
@@ -37,6 +39,7 @@ func GetUserByIDHandler(c *fiber.Ctx) error {
 	if err := user.GetUserByID(database.DB, u, id); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
+	u.Password = ""
 	return c.Status(fiber.StatusOK).JSON(&[]user.User{*u})
 }
 
@@ -44,6 +47,9 @@ func GetUsers(c *fiber.Ctx) error {
 	t := &[]user.User{}
 	if err := user.GetAll(database.DB, t); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+	for i := range *t {
+		(*t)[i].Password = ""
 	}
 	return c.Status(fiber.StatusOK).JSON(t)
 }
@@ -67,6 +73,7 @@ func UpdateUserHandler(c *fiber.Ctx) error {
 	if err := user.UpdateUser(database.DB, u); err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(err.Error())
 	}
+	u.Password = ""
 	return c.Status(fiber.StatusOK).JSON(u)
 }
 
@@ -121,7 +128,7 @@ func CurrentUserHandler(c *fiber.Ctx) error {
 	if err := user.GetUserByID(database.DB, u, fmt.Sprintf("%d", userID)); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
 	}
-
+	u.Password = ""
 	return c.JSON(u)
 }
 
