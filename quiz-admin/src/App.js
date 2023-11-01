@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Quiz from './home/Quiz'
 import Question from './home/Question'
 import Header from './navigation/Header'
+import Login from './authentication/Login'
 
 function App() {
   return <ConfigProvider
@@ -25,7 +26,7 @@ function App() {
         <Header/>
         <Layout.Content style={{paddingLeft: 30, paddingRight: 30}}>
           <Routes>
-            <Route path="/"  Component={Home}/>
+            <Route path="/"  Component={Login}/>
             <Route path="/Home"  Component={Home}/>
             <Route path="/quizzes/:id"  Component={Quiz}/>
             <Route path="/questions/:id"  Component={Question}/>

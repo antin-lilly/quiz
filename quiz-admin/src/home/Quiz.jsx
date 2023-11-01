@@ -6,8 +6,11 @@ import { getQuestionTypes, QuestionType } from '../constants/QuestionType'
 import { DeleteOutlined, EditOutlined, FileOutlined, PlusOutlined } from '@ant-design/icons'
 import { Controller, useForm } from 'react-hook-form'
 import QuestionService from '../service/Question.service'
+import AuthService from '../service/Auth.service'
 
 const Quiz = () => {
+
+  const token = localStorage.getItem('token');
 
   const [questions, setQuestions] = useState([])
   const [adding, setAdding] = useState(false)
@@ -23,13 +26,24 @@ const Quiz = () => {
       setAdding(false)
       fetchQuestions()
     }
+    validateToken(token)
   }, [params.id])
 
   const fetchQuestions = () => {
-    QuizService.getQuestions(params.id).then(response => {
+    QuizService.getQuestions(params.id, token).then(response => {
       setQuestions(response.data);
     })
   }
+
+  const validateToken = async (token) => {
+    try {
+      const response = await AuthService.validateToken(token);
+    } catch (error) {
+      console.error('Error:', error);
+      localStorage.removeItem('token');
+      navigate('/');
+    }
+  };
 
   const getItem = (item) => {
     if (item?.adding || item?.editing) {
@@ -122,7 +136,7 @@ const Quiz = () => {
   }
 
   const handleAddQuestion = (values) => {
-    QuestionService.post({...values, quizId: +params?.id}).then(() => {
+    QuestionService.post({...values, quizId: +params?.id}, token).then(() => {
       setAdding(false)
       setEditing(false)
       fetchQuestions();
@@ -130,7 +144,7 @@ const Quiz = () => {
   }
 
   const handleEditQuiz = (values, item) => {
-    QuestionService.put(item.ID, {...item, ...values}).then(() => {
+    QuestionService.put(item.ID, {...item, ...values}, token).then(() => {
       setAdding(false)
       setEditing(false)
       fetchQuestions();
@@ -138,7 +152,7 @@ const Quiz = () => {
   }
 
 const handleDeleteQuestion = (id) => {
-  QuestionService.delete(id).then(fetchQuestions)
+  QuestionService.delete(id, token).then(fetchQuestions)
 }
 
 return <Layout style={{paddingLeft: 30, paddingRight: 30, gap: 30}}>

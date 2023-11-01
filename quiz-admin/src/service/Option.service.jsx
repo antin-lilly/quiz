@@ -1,9 +1,9 @@
 import { axiosInstance } from './HTTP'
 
 const OptionService = {
-  post: (data) => axiosInstance.post(`/options`, data),
-  put: (id, data) => axiosInstance.put(`/options/${id}`, data),
-  delete: (id) => axiosInstance.delete(`/options/${id}`),
+  post: (data, token) => axiosInstance.post(`/options`, data, { headers: { Authorization: token } }),
+  put: (id, data, token) => axiosInstance.put(`/options/${id}`, data, { headers: { Authorization: token } }),
+  delete: (id, token) => axiosInstance.delete(`/options/${id}`, { headers: { Authorization: token } }),
 
 }
 
