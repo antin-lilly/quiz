@@ -4,6 +4,7 @@ import { Button, Box, Text } from "native-base";
 import { globalStyles } from "../../globalStyles";
 import QuizService from "../../services/Quiz.service";
 import { LoadingContext } from "../../contexts/LoadingContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
   quizItemContainer: {
@@ -41,6 +42,16 @@ const styles = StyleSheet.create({
 
 const QuestionList = ({ navigation, searchText }) =>
 {
+  const getToken = async () => {
+    try {
+      const tokenFetch = await AsyncStorage.getItem('@token');
+      return tokenFetch;
+    } catch (error) {
+      console.error('Error retrieving token:', error);
+      return null;
+    }
+  };
+
   const { setLoading, isLoading } = useContext(LoadingContext);
   const [quizzes, setQuizzes] = useState([]);
 
@@ -57,23 +68,17 @@ const QuestionList = ({ navigation, searchText }) =>
     fetchQuestions();
   }, []);
 
-  const fetchQuestions = () =>
-  {
+  const fetchQuestions = async () => {
     setLoading(true);
-
-    QuizService.getAll()
-      .then((response) =>
-      {
-        setQuizzes(response.data);
-      })
-      .catch((error) =>
-      {
-        console.error("Error fetching quizzes:", error);
-      })
-      .finally(() =>
-      {
-        setLoading(false);
-      });
+    try {
+      const token = await getToken();
+      const response = await QuizService.getAll(token);
+      setQuizzes(response.data);
+    } catch (error) {
+      console.error("Error fetching quizzes:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const renderQuizItem = ({ item }) => (
